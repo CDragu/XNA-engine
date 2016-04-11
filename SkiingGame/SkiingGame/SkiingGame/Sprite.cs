@@ -26,46 +26,54 @@ namespace SkiingGame
         public Vector2 position;
         public float scale;
         public float rotation;
+        public float transparency;
         public Texture2D texture;
         public List<Sprite> children;
         
-        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation)
+        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency)
         {            
             this.position = position;
             this.scale = scale;
             this.rotation = rotation;
             this.texture = texture;
-            
+            this.transparency = transparency;
             children = new List<Sprite>();
             
         }
+        public Sprite(Vector2 position, float scale, Texture2D texture,float rotation)
+            : this(position, scale, texture, rotation,1f)
+        {
+        }
         public Sprite(Vector2 position, float scale, Texture2D texture)
-            :this(position,scale,texture,0f)
+            :this(position,scale,texture,0f,1f)
         {
         }
         public Sprite(Vector2 position, Texture2D texture)
-            : this(position, 1f, texture, 0f)
+            : this(position, 1f, texture, 0f, 1f)
         {
         }
         public Sprite( Texture2D texture)
-            : this(Vector2.Zero, 1f, texture, 0f)
+            : this(Vector2.Zero, 1f, texture, 0f, 1f)
         {
         }
 
 
         public virtual void Draw(SpriteBatch spriteBatch) {
           
-            spriteBatch.Draw(texture, position, null, Color.White, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, position, null, Color.White * transparency, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
             foreach (Sprite Children in this.children)
             {
                 Vector2 ChildPosition = new Vector2(this.position.X + Children.position.X, this.position.Y + Children.position.Y);
-                spriteBatch.Draw(Children.texture, ChildPosition,null, Color.White,Children.rotation,Vector2.Zero,Children.scale,SpriteEffects.None,0f);
+                spriteBatch.Draw(Children.texture, ChildPosition,null, Color.White * Children.transparency, Children.rotation,Vector2.Zero,Children.scale,SpriteEffects.None,0f);
             }            
         }
 
         public virtual void Reset(RunSequence game) { }
 
-        public virtual void Update(RunSequence game) { }
+        public virtual void Update()
+        {
+            
+        }
 
         public Info Save()
         {

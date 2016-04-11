@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Storage;
 
 namespace SkiingGame
 {
@@ -22,6 +23,9 @@ namespace SkiingGame
         Texture2D skyMantexture;
 
         Sprite skyMan;
+
+        SaveLoad save = new SaveLoad();
+        
 
         public RunSequence()
         {
@@ -46,9 +50,9 @@ namespace SkiingGame
             flagLefttexture = Content.Load<Texture2D>("leftRedFlag");
             skyMantexture = Content.Load<Texture2D>("Skier");
 
-            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f);
+            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f);
             skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f));
-           
+            
         }
 
        
@@ -63,9 +67,14 @@ namespace SkiingGame
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            KeyboardState keyboard = Keyboard.GetState();
+            skyMan.Update();
             
-            
+            if (keyboard.IsKeyDown(Keys.A))
+            {
+                
+               
+            }
 
             base.Update(gameTime);
         }
