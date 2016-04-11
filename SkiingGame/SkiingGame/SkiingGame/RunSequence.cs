@@ -17,6 +17,12 @@ namespace SkiingGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D flagRighttexture;
+        Texture2D flagLefttexture;
+        Texture2D skyMantexture;
+
+        Sprite skyMan;
+
         public RunSequence()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,10 +40,15 @@ namespace SkiingGame
        
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            flagRighttexture = Content.Load<Texture2D>("LeftBlueflag");
+            flagLefttexture = Content.Load<Texture2D>("leftRedFlag");
+            skyMantexture = Content.Load<Texture2D>("Skier");
+
+            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture);
+            skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture));
+            skyMan.Save();
         }
 
        
@@ -53,7 +64,7 @@ namespace SkiingGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+         
 
             base.Update(gameTime);
         }
@@ -62,8 +73,10 @@ namespace SkiingGame
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            skyMan.Draw(spriteBatch);
+            spriteBatch.End();
+          
 
             base.Draw(gameTime);
         }
