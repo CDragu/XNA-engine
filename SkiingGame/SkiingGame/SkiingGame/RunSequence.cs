@@ -46,9 +46,9 @@ namespace SkiingGame
             flagLefttexture = Content.Load<Texture2D>("leftRedFlag");
             skyMantexture = Content.Load<Texture2D>("Skier");
 
-            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture);
-            skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture));
-            skyMan.Save();
+            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f);
+            skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f));
+           
         }
 
        
@@ -64,7 +64,8 @@ namespace SkiingGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-         
+            
+            
 
             base.Update(gameTime);
         }
