@@ -24,7 +24,7 @@ namespace SkiingGame
 
         Sprite skyMan;
 
-        SaveLoad save = new SaveLoad();
+      
         
 
         public RunSequence()
@@ -70,10 +70,17 @@ namespace SkiingGame
             KeyboardState keyboard = Keyboard.GetState();
             skyMan.Update();
             
-            if (keyboard.IsKeyDown(Keys.A))
+            if (keyboard.IsKeyDown(Keys.S))
             {
+
+                SaveLoad save = new SaveLoad(skyMan,"SAVE");
+            }
+            if (keyboard.IsKeyDown(Keys.L))
+            {
+
+                SaveLoad load = new SaveLoad(skyMan,"LOAD");
+                skyMan.Load(load.AfterLoad());
                 
-               
             }
 
             base.Update(gameTime);

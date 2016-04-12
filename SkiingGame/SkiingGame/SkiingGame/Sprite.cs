@@ -13,15 +13,16 @@ using Microsoft.Xna.Framework.Media;
 
 namespace SkiingGame
 {
-    class Sprite
+    public class Sprite
     {
+        [Serializable]
         public struct Info
         {
             public Vector2 position;
             public float scale;
             public float rotation;
             public Texture2D texture;
-            public List<Sprite> children;
+            public Sprite[] childlist;
         }
         public Vector2 position;
         public float scale;
@@ -72,7 +73,11 @@ namespace SkiingGame
 
         public virtual void Update()
         {
-            
+            this.position.X += 1;
+            foreach (Sprite Children in this.children)
+            {
+                Children.position.Y += 1;
+            }
         }
 
         public Info Save()
@@ -81,9 +86,30 @@ namespace SkiingGame
             info.position = this.position;
             info.scale = this.scale;
             info.rotation = this.scale;
-            info.texture = this.texture;
-            info.children = this.children;
+            info.childlist = new Sprite[children.Count];
+            for(int i=0; i< children.Count; i++)
+            {
+                info.childlist[i] = 
+            }
+            //foreach (Sprite Children in this.children)
+            //{
+            //    info.children.Add(Children);
+            //}
+            //info.texture = this.texture;
+            //info.children = this.children;
             return info;
+        }
+        public void Load(Info info)
+        {
+            this.position = info.position;
+            this.scale = info.scale;
+            this.rotation = info.scale;
+            //foreach (Sprite Children in info.children)
+            //{
+            //    this.children.Add(Children);
+            //}
+            //this.texture = info.texture;
+            //this.children = info.children;
         }
     }
 }
