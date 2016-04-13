@@ -18,10 +18,11 @@ namespace SkiingGame
         StorageDevice device;
         string containerName = "MyGamesStorage";
         string filename = "mysave.sav";
-        Sprite sprite;
+        PlayField field;
+
         Sprite.Info info = new Sprite.Info();
         
-        public SaveLoad(Sprite sprite, string action)
+        public SaveLoad(PlayField field, string action)
         {
             this.sprite = sprite;
             if (action == "SAVE")
@@ -43,8 +44,8 @@ namespace SkiingGame
             device = StorageDevice.EndShowSelector(result);
             if (device != null && device.IsConnected)
             {
-                Sprite.Info info = new Sprite.Info();                
-                info = sprite.Save();
+                //Sprite.Info info = new Sprite.Info();                
+                //info = sprite.Save();
                 IAsyncResult r = device.BeginOpenContainer(containerName, null, null);
                 result.AsyncWaitHandle.WaitOne();
                 StorageContainer container = device.EndOpenContainer(r);

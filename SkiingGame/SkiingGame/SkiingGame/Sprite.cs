@@ -21,8 +21,7 @@ namespace SkiingGame
             public Vector2 position;
             public float scale;
             public float rotation;
-            public Texture2D texture;
-            public Sprite[] childlist;
+            public Texture2D texture;            
         }
         public Vector2 position;
         public float scale;
@@ -31,7 +30,7 @@ namespace SkiingGame
         public Texture2D texture;
         public List<Sprite> children;
         
-        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency)
+        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency, PlayField field)
         {            
             this.position = position;
             this.scale = scale;
@@ -39,22 +38,23 @@ namespace SkiingGame
             this.texture = texture;
             this.transparency = transparency;
             children = new List<Sprite>();
+            field.Addtoplayfield(this);
+        }
+        public Sprite(Vector2 position, float scale, Texture2D texture,float rotation, PlayField field)
+            : this(position, scale, texture, rotation,1f, field)
+        {
             
         }
-        public Sprite(Vector2 position, float scale, Texture2D texture,float rotation)
-            : this(position, scale, texture, rotation,1f)
+        public Sprite(Vector2 position, float scale, Texture2D texture, PlayField field)
+            :this(position,scale,texture,0f,1f, field)
         {
         }
-        public Sprite(Vector2 position, float scale, Texture2D texture)
-            :this(position,scale,texture,0f,1f)
+        public Sprite(Vector2 position, Texture2D texture, PlayField field)
+            : this(position, 1f, texture, 0f, 1f, field)
         {
         }
-        public Sprite(Vector2 position, Texture2D texture)
-            : this(position, 1f, texture, 0f, 1f)
-        {
-        }
-        public Sprite( Texture2D texture)
-            : this(Vector2.Zero, 1f, texture, 0f, 1f)
+        public Sprite( Texture2D texture, PlayField field)
+            : this(Vector2.Zero, 1f, texture, 0f, 1f, field)
         {
         }
 
@@ -86,17 +86,6 @@ namespace SkiingGame
             info.position = this.position;
             info.scale = this.scale;
             info.rotation = this.scale;
-            info.childlist = new Sprite[children.Count];
-            for(int i=0; i< children.Count; i++)
-            {
-                info.childlist[i] = 
-            }
-            //foreach (Sprite Children in this.children)
-            //{
-            //    info.children.Add(Children);
-            //}
-            //info.texture = this.texture;
-            //info.children = this.children;
             return info;
         }
         public void Load(Info info)
@@ -104,12 +93,6 @@ namespace SkiingGame
             this.position = info.position;
             this.scale = info.scale;
             this.rotation = info.scale;
-            //foreach (Sprite Children in info.children)
-            //{
-            //    this.children.Add(Children);
-            //}
-            //this.texture = info.texture;
-            //this.children = info.children;
         }
     }
 }

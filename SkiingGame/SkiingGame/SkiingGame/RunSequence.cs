@@ -24,8 +24,7 @@ namespace SkiingGame
 
         Sprite skyMan;
 
-      
-        
+        public PlayField field;
 
         public RunSequence()
         {
@@ -46,13 +45,15 @@ namespace SkiingGame
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            field = new PlayField();
+
             flagRighttexture = Content.Load<Texture2D>("LeftBlueflag");
             flagLefttexture = Content.Load<Texture2D>("leftRedFlag");
             skyMantexture = Content.Load<Texture2D>("Skier");
 
-            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f);
-            skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f));
-            
+            skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f,field);
+            skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f,field));
+           
         }
 
        
@@ -73,12 +74,12 @@ namespace SkiingGame
             if (keyboard.IsKeyDown(Keys.S))
             {
 
-                SaveLoad save = new SaveLoad(skyMan,"SAVE");
+                SaveLoad save = new SaveLoad(field,"SAVE");
             }
             if (keyboard.IsKeyDown(Keys.L))
             {
 
-                SaveLoad load = new SaveLoad(skyMan,"LOAD");
+                SaveLoad load = new SaveLoad(field,"LOAD");
                 skyMan.Load(load.AfterLoad());
                 
             }
@@ -93,7 +94,6 @@ namespace SkiingGame
             spriteBatch.Begin();
             skyMan.Draw(spriteBatch);
             spriteBatch.End();
-          
 
             base.Draw(gameTime);
         }
