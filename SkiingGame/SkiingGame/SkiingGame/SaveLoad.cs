@@ -19,16 +19,14 @@ namespace SkiingGame
         string containerName = "MyGamesStorage";
         string filename = "mysave.sav";
         PlayField field;
-
-        Sprite.Info info = new Sprite.Info();
         
         public SaveLoad(PlayField field, string action)
         {
-            this.sprite = sprite;
+            this.field = field;
             if (action == "SAVE")
                 this.InitiateSave();
             else if (action == "LOAD")
-                this.Load(sprite);
+                this.Load();
         }
         private void InitiateSave()
         {
@@ -52,8 +50,8 @@ namespace SkiingGame
                 if (container.FileExists(filename))
                     container.DeleteFile(filename);
                 Stream stream = container.CreateFile(filename);
-                XmlSerializer serializer = new XmlSerializer(typeof(Sprite.Info));
-                serializer.Serialize(stream, info);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Sprite>));
+                serializer.Serialize(stream, field);
                 stream.Close();
                 container.Dispose();
                 result.AsyncWaitHandle.Close();
@@ -65,9 +63,8 @@ namespace SkiingGame
         /// </summary>
         /// <param name="sprite"></param>
         
-        public void Load(Sprite sprite)
-        {
-            
+        public void Load()
+        {            
             this.InitiateLoad();
         }
         private void InitiateLoad()
@@ -89,19 +86,17 @@ namespace SkiingGame
             if (container.FileExists(filename))
             {
                 Stream stream = container.OpenFile(filename, FileMode.Open);
-                XmlSerializer serializer = new XmlSerializer(typeof(Sprite.Info));
-                info = (Sprite.Info)serializer.Deserialize(stream);
+                XmlSerializer serializer = new XmlSerializer(typeof(PlayField));
+                field = (PlayField)serializer.Deserialize(stream);
                 stream.Close();
                 container.Dispose();
                 //Update the game based on the save game file
                 AfterLoad();
             }
         }
-        public Sprite.Info AfterLoad()
+        public PlayField AfterLoad()
         {
-            return this.info;
+            return this.field;
         }
-        
-
     }
 }

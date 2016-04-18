@@ -80,7 +80,7 @@ namespace SkiingGame
             {
 
                 SaveLoad load = new SaveLoad(field,"LOAD");
-                skyMan.Load(load.AfterLoad());
+                field = load.AfterLoad();
                 
             }
 
