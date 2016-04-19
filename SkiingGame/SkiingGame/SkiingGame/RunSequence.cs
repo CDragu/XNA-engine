@@ -21,8 +21,10 @@ namespace SkiingGame
         Texture2D flagRighttexture;
         Texture2D flagLefttexture;
         Texture2D skyMantexture;
+        Texture2D knighttexture;
 
         Sprite skyMan;
+        Player knight;
 
         public PlayField field;
 
@@ -50,9 +52,11 @@ namespace SkiingGame
             flagRighttexture = Content.Load<Texture2D>("LeftBlueflag");
             flagLefttexture = Content.Load<Texture2D>("leftRedFlag");
             skyMantexture = Content.Load<Texture2D>("Skier");
+            knighttexture = Content.Load<Texture2D>("knightspritesheet");
 
             skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f,field);
             skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f,field));
+            knight = new Player(new Vector2(200f,200f), 1, knighttexture, 1f, 1f, field);
            
         }
 
@@ -70,6 +74,7 @@ namespace SkiingGame
                 this.Exit();
             KeyboardState keyboard = Keyboard.GetState();
             skyMan.Update();
+            knight.Update();
             
             if (keyboard.IsKeyDown(Keys.S))
             {
@@ -93,6 +98,7 @@ namespace SkiingGame
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             skyMan.Draw(spriteBatch);
+            knight.DrawWithAnimation(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

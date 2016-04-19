@@ -19,7 +19,8 @@ namespace SkiingGame
         string containerName = "MyGamesStorage";
         string filename = "mysave.sav";
         PlayField field;
-        
+        List<Sprite.Info> Innerspritelist = new List<Sprite.Info>();
+
         public SaveLoad(PlayField field, string action)
         {
             this.field = field;
@@ -30,28 +31,29 @@ namespace SkiingGame
         }
         private void InitiateSave()
         {
-            //if (!Guide.IsVisible)
-            //{
-            //    device = null;
+            foreach(Sprite sprite in field.onthefield)
+            {
+                Innerspritelist.Add(sprite.Save());
+            }
+           
                 StorageDevice.BeginShowSelector(PlayerIndex.One, this.SaveToDevice, null);
-            //}
+          
         }
-        //
+        
         void SaveToDevice(IAsyncResult result)
         {
             device = StorageDevice.EndShowSelector(result);
             if (device != null && device.IsConnected)
             {
-                //Sprite.Info info = new Sprite.Info();                
-                //info = sprite.Save();
+               
                 IAsyncResult r = device.BeginOpenContainer(containerName, null, null);
                 result.AsyncWaitHandle.WaitOne();
                 StorageContainer container = device.EndOpenContainer(r);
                 if (container.FileExists(filename))
                     container.DeleteFile(filename);
                 Stream stream = container.CreateFile(filename);
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Sprite>));
-                serializer.Serialize(stream, field);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Sprite.Info>));
+                serializer.Serialize(stream, Innerspritelist);
                 stream.Close();
                 container.Dispose();
                 result.AsyncWaitHandle.Close();
@@ -68,12 +70,8 @@ namespace SkiingGame
             this.InitiateLoad();
         }
         private void InitiateLoad()
-        {
-            //if (!Guide.IsVisible)
-            //{
-            //    device = null;
+        {         
                 StorageDevice.BeginShowSelector(PlayerIndex.One, this.LoadFromDevice, null);
-            //}
         }
 
         void LoadFromDevice(IAsyncResult result)
@@ -86,17 +84,22 @@ namespace SkiingGame
             if (container.FileExists(filename))
             {
                 Stream stream = container.OpenFile(filename, FileMode.Open);
-                XmlSerializer serializer = new XmlSerializer(typeof(PlayField));
-                field = (PlayField)serializer.Deserialize(stream);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Sprite.Info>));
+                Innerspritelist = (List<Sprite.Info>)serializer.Deserialize(stream);
                 stream.Close();
-                container.Dispose();
-                //Update the game based on the save game file
-                AfterLoad();
+                container.Dispose();               
+                AfterLoad(); //Update the game based on the save game file
             }
         }
         public PlayField AfterLoad()
         {
-            return this.field;
+            int i = 0;
+            foreach (Sprite sprite in field.onthefield)
+            {
+                sprite.Load(Innerspritelist[i]);
+                i++;
+            }
+                return this.field;
         }
     }
 }

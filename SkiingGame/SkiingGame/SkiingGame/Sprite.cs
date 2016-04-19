@@ -29,6 +29,7 @@ namespace SkiingGame
         public float transparency;
         public Texture2D texture;
         public List<Sprite> children;
+
         
         public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency, PlayField field)
         {            
@@ -73,11 +74,11 @@ namespace SkiingGame
 
         public virtual void Update()
         {
-            this.position.X += 1;
-            foreach (Sprite Children in this.children)
-            {
-                Children.position.Y += 1;
-            }
+            //this.position.X += 1;
+            //foreach (Sprite Children in this.children)
+            //{
+            //    Children.position.Y += 1;
+            //}
         }
 
         public Info Save()
@@ -85,14 +86,60 @@ namespace SkiingGame
             Info info = new Info();
             info.position = this.position;
             info.scale = this.scale;
-            info.rotation = this.scale;
+            info.rotation = this.rotation;
             return info;
         }
         public void Load(Info info)
         {
             this.position = info.position;
             this.scale = info.scale;
-            this.rotation = info.scale;
+            this.rotation = info.rotation;
         }
+        //Animation Stuff
+
+        Texture2D AnimationTexture;
+        int currentFrame = 0;
+        int spriteWidth = 32;
+        int spriteHeight = 48;
+        float spriteSpeed = 0.2f;
+        float time = 0;
+        float frameduration = 0.5f;
+        Rectangle sourceRect;
+        public void SetSourceRect()
+        {
+            sourceRect = new Rectangle(currentFrame * spriteWidth, 0, spriteWidth, spriteHeight);
+        }
+        public void RunAnimation(float duration, int startingframe)
+        {
+            time = time+ spriteSpeed;
+            if(time > duration)
+            {
+                time = 0;
+                currentFrame = startingframe;
+            }
+            if(time % frameduration == 0)
+            {
+                currentFrame++;
+            }
+
+        }
+        public void UpdateAnimation(int currentframe)
+        {
+            this.currentFrame = currentframe;
+            SetSourceRect();
+        }
+
+        public virtual void DrawWithAnimation(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(texture, position, sourceRect, Color.White * transparency, rotation, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            foreach (Sprite Children in this.children)
+            {
+                Vector2 ChildPosition = new Vector2(this.position.X + Children.position.X, this.position.Y + Children.position.Y);
+                spriteBatch.Draw(Children.texture, ChildPosition, Children.sourceRect, Color.White * Children.transparency, Children.rotation, Vector2.Zero, Children.scale, SpriteEffects.None, 0f);
+            }
+        }
+
+        
     }
 }
