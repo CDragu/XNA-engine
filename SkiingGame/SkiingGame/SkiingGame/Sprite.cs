@@ -107,11 +107,6 @@ namespace SkiingGame
 
         public virtual void Update()
         {
-            //this.position.X += 1;
-            //foreach (Sprite Children in this.children)
-            //{
-            //    Children.position.Y += 1;
-            //}
         }
 
         public Info Save()

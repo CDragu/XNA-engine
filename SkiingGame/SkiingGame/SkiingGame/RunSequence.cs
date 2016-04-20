@@ -25,6 +25,7 @@ namespace SkiingGame
 
         Sprite skyMan;
         Player knight;
+        PhysicsObject Obj1, Obj2;
 
         public PlayField field;
 
@@ -57,7 +58,9 @@ namespace SkiingGame
             skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f,field);
             skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f,field));
             knight = new Player(new Vector2(200f,200f), 1, knighttexture, 0, 1f, field);
-           
+            Obj1 = new PhysicsObject(new Vector2(250f, 250f), 0.1f, flagRighttexture, 0, 1f, field);
+            Obj2 = new PhysicsObject(new Vector2(250f, 280f), 0.1f, flagLefttexture, 0, 1f, field);
+
         }
 
        
@@ -75,7 +78,21 @@ namespace SkiingGame
             KeyboardState keyboard = Keyboard.GetState();
             skyMan.Update();
             knight.Update();
+            Obj1.Update();
             
+            Obj2.Update();
+            Obj1.PhysicsUpdate(Obj1, Obj2);
+            if (keyboard.IsKeyDown(Keys.J))
+            {
+                
+                Obj1.Position = Obj1.Position + new Vector2(0, 1);
+            }
+            if (keyboard.IsKeyDown(Keys.U))
+            {
+
+                Obj1.Position = Obj1.Position + new Vector2(0, -1);
+            }
+
             if (keyboard.IsKeyDown(Keys.S))
             {
 
@@ -99,6 +116,8 @@ namespace SkiingGame
             spriteBatch.Begin();
             skyMan.Draw(spriteBatch);
             knight.DrawWithAnimation(spriteBatch);
+            Obj1.Draw(spriteBatch);
+            Obj2.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
