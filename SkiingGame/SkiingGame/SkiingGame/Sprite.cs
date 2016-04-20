@@ -151,10 +151,19 @@ namespace SkiingGame
             this.spriteSpeed = spriteSpeed;
             this.frameduration = frameduration;
         }
-        
+        /// <summary>
+        /// Runs an animation that takes totalduration frames and starts form starting frame. frameduratin is for time
+        /// </summary>
+        /// <param name="startingframe"></param>
+        /// <param name="totalduration"></param>
+        /// <param name="frameduration"></param>
         public void RunAnimation(int startingframe ,int totalduration, float frameduration)
         {
-            time = time + 0.16f;
+            time = time + 0.16f;//to do: change to time till last update
+            if(currentFrame < startingframe)
+            {
+                currentFrame = startingframe;
+            }
             if(time > frameduration)
             {
                 currentFrame++;
