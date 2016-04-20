@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Storage;
+using System.IO;
 
 namespace SkiingGame
 {
@@ -22,8 +23,13 @@ namespace SkiingGame
         Texture2D flagLefttexture;
         Texture2D skyMantexture;
         Texture2D knighttexture;
+        
+        Stream soundfile;
+        SoundEffect soundEffect;
+        SoundEffectInstance soundEffectInstance;
 
         Sprite skyMan;
+        Sprite SoundGhost;
         Player knight;
         PhysicsObject Obj1, Obj2;
 
@@ -55,12 +61,22 @@ namespace SkiingGame
             skyMantexture = Content.Load<Texture2D>("Skier");
             knighttexture = Content.Load<Texture2D>("knightspritesheet");
 
+
+            System.IO.FileStream fs = new System.IO.FileStream(@"C:\Users\cosmin\Source\Repos\SkiingGame\SkiingGame\SkiingGame\SkiingGameContent\buzz.wav", System.IO.FileMode.Open); //needs to be reworked, was not working with simple load content
+            SoundEffect mysound = SoundEffect.FromStream(fs);
+            fs.Dispose();
+
+
+            //soundfile = TitleContainer.OpenStream(@"Content\buzz.wav");
+            //soundEffect = SoundEffect.FromStream(soundfile);
+            soundEffectInstance = mysound.CreateInstance();
+
             skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f,field);
             skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f,field));
             knight = new Player(new Vector2(200f,200f), 1, knighttexture, 0, 1f, field);
             Obj1 = new PhysicsObject(new Vector2(250f, 250f), 0.1f, flagRighttexture, 0, 1f, field);
             Obj2 = new PhysicsObject(new Vector2(250f, 280f), 0.1f, flagLefttexture, 0, 1f, field);
-
+            SoundGhost = new Sprite(new Vector2(100f, 100f), 0.5f, flagRighttexture, soundEffectInstance, -0.2f, 0.2f, field);
         }
 
        
@@ -105,6 +121,7 @@ namespace SkiingGame
                 field = load.AfterLoad();
                 
             }
+            SoundGhost.Update();
 
             base.Update(gameTime);
         }

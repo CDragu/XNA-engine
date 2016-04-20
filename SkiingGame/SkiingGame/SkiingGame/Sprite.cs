@@ -31,6 +31,8 @@ namespace SkiingGame
         private float transparency;
         private Texture2D texture;
         public List<Sprite> children;
+       
+        
 
         public Vector2 Position
         {
@@ -64,7 +66,7 @@ namespace SkiingGame
 
 
 
-        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency, PlayField field)
+        public Sprite(Vector2 position, float scale, Texture2D texture, SoundEffectInstance soundEffect, float rotation, float transparency, PlayField field)
         {            
             this.position = position;
             this.scale = scale;
@@ -73,9 +75,15 @@ namespace SkiingGame
             this.transparency = transparency;
             children = new List<Sprite>();
             field.Addtoplayfield(this);
+            this.soundEffectInstance = soundEffect;
+        }
+        public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency, PlayField field)
+          : this(position, scale, texture, null, rotation, transparency, field)
+        {
+
         }
         public Sprite(Vector2 position, float scale, Texture2D texture,float rotation, PlayField field)
-            : this(position, scale, texture, rotation,1f, field)
+            : this(position, scale, texture,null, rotation,1f, field)
         {
             
         }
@@ -107,6 +115,10 @@ namespace SkiingGame
 
         public virtual void Update()
         {
+            if(soundEffectInstance != null)
+            {
+                PlayAudio();
+            }
         }
 
         public Info Save()
@@ -188,6 +200,19 @@ namespace SkiingGame
                 spriteBatch.Draw(Children.texture, ChildPosition, Children.sourceRect, Color.White * Children.transparency, Children.rotation, Vector2.Zero, Children.scale, SpriteEffects.None, 0f);
             }
         }
+        ///
+        ///Audio Stuff
+        ///
+        SoundEffectInstance soundEffectInstance;
+        AudioEmitter emitter = new AudioEmitter();
+        AudioListener listener = new AudioListener();
+        public void PlayAudio()
+        {
+            soundEffectInstance.Apply3D(listener, emitter);
+            soundEffectInstance.Play();
+        }
+    
+        
 
         
     }
