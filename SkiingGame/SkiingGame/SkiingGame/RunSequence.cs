@@ -56,7 +56,7 @@ namespace SkiingGame
 
             skyMan = new Sprite(Vector2.Zero , 0.5f, flagRighttexture,-0.2f,0.2f,field);
             skyMan.children.Add(new Sprite(new Vector2(400f,0f), 0.2f, flagLefttexture,-0.1f,field));
-            knight = new Player(new Vector2(200f,200f), 1, knighttexture, 1f, 1f, field);
+            knight = new Player(new Vector2(200f,200f), 1, knighttexture, 0, 1f, field);
            
         }
 

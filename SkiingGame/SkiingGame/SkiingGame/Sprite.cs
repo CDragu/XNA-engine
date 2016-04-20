@@ -23,14 +23,47 @@ namespace SkiingGame
             public float rotation;
             public Texture2D texture;            
         }
-        public Vector2 position;
-        public float scale;
-        public float rotation;
-        public float transparency;
-        public Texture2D texture;
-        public List<Sprite> children;
 
         
+        private Vector2 position;
+        private float scale;
+        private float rotation;
+        private float transparency;
+        private Texture2D texture;
+        public List<Sprite> children;
+
+        public Vector2 Position
+        {
+            get { return position; }
+            set { position = value; }
+        }
+
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
+
+        public float Rotation
+        {
+            get { return rotation; }
+            set { rotation = value; }
+        }
+
+        public float Transparency
+        {
+            get { return transparency; }
+            set { transparency = value; }
+        }
+
+        public Texture2D Texture
+        {
+            get { return texture; }
+            set { texture = value; }
+        }
+
+
+
         public Sprite(Vector2 position, float scale, Texture2D texture, float rotation, float transparency, PlayField field)
         {            
             this.position = position;
@@ -96,30 +129,42 @@ namespace SkiingGame
             this.rotation = info.rotation;
         }
         //Animation Stuff
+        
+        private int currentFrame = 0;
+        private int spriteWidth = 32;
+        private int spriteHeight = 48;
+        private float spriteSpeed = 0.2f;
+        private double time = 0;
+        private float frameduration = 0.16f;
+        
+        private Rectangle sourceRect;
 
-        Texture2D AnimationTexture;
-        int currentFrame = 0;
-        int spriteWidth = 32;
-        int spriteHeight = 48;
-        float spriteSpeed = 0.2f;
-        float time = 0;
-        float frameduration = 0.5f;
-        Rectangle sourceRect;
         public void SetSourceRect()
         {
             sourceRect = new Rectangle(currentFrame * spriteWidth, 0, spriteWidth, spriteHeight);
         }
-        public void RunAnimation(float duration, int startingframe)
+
+        public void InitializeAnimation(int spriteWidth, int spriteHeight, float spriteSpeed, float frameduration)
         {
-            time = time+ spriteSpeed;
-            if(time > duration)
-            {
-                time = 0;
-                currentFrame = startingframe;
-            }
-            if(time % frameduration == 0)
+            this.spriteWidth = spriteWidth;
+            this.spriteHeight = spriteHeight;
+            this.spriteSpeed = spriteSpeed;
+            this.frameduration = frameduration;
+        }
+        
+        public void RunAnimation(int startingframe ,int totalduration, float frameduration)
+        {
+            time = time + 0.16f;
+            if(time > frameduration)
             {
                 currentFrame++;
+                SetSourceRect();
+                time = 0;
+            }
+            if(currentFrame > totalduration)
+            {
+                currentFrame = startingframe;
+                SetSourceRect();
             }
 
         }
