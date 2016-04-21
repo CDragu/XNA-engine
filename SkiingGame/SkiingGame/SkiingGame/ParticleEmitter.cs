@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SkiingGame
 {
@@ -12,9 +13,12 @@ namespace SkiingGame
         private Particle[] ParticleList;
         private Vector2 position;
         private float emmitingDirection;
-        private Vector2 initialVelocity;
-        private float initialVelocityTime;
-        private float particleLifeTime;
+
+        private Texture2D pTexture;
+        private Vector2 pinitialVelocity;
+        private float pinitialVelocityTime;
+        private float pLifeTime;
+        
 
         public int MaxParticleNumber
         {
@@ -36,23 +40,29 @@ namespace SkiingGame
 
         public Vector2 InitialVelocity
         {
-            get { return initialVelocity; }
-            set { initialVelocity = value; }
+            get { return pinitialVelocity; }
+            set { pinitialVelocity = value; }
         }
 
         public float InitialVelocityTime
         {
-            get { return initialVelocityTime; }
-            set { initialVelocityTime = value; }
+            get { return pinitialVelocityTime; }
+            set { pinitialVelocityTime = value; }
         }
 
         public float ParticleLifeTime
         {
-            get { return particleLifeTime; }
-            set { particleLifeTime = value; }
+            get { return pLifeTime; }
+            set { pLifeTime = value; }
         }
 
-        public ParticleEmitter(int maxParticleNumber, Vector2 position, float emmitingDirection, Vector2 initialVelocity, float initialVelocityTime , float particleLifeTime)
+        public Texture2D PTexture
+        {
+            get { return pTexture; }
+            set { pTexture = value; }
+        }
+
+        public ParticleEmitter(int maxParticleNumber, Vector2 position, float emmitingDirection, Vector2 initialVelocity, float initialVelocityTime , float particleLifeTime, Texture2D texture)
         {
             this.MaxParticleNumber = maxParticleNumber;
             this.Position = position;
@@ -61,6 +71,7 @@ namespace SkiingGame
             this.InitialVelocityTime = initialVelocityTime;
             this.ParticleLifeTime = particleLifeTime;
             this.ParticleList = new Particle[maxParticleNumber];
+            this.PTexture = texture;
         }
 
         public virtual void Update()
@@ -69,7 +80,7 @@ namespace SkiingGame
             {
                 if(ParticleList[i] == null)
                 {
-                    Particle parti = new Particle(this.maxParticleNumber, this.position, this.emmitingDirection, this.InitialVelocity, this.initialVelocityTime, this.particleLifeTime);
+                    Particle parti = new Particle(this.maxParticleNumber, this.position, this.emmitingDirection, this.InitialVelocity, this.pinitialVelocityTime, this.pLifeTime,this.PTexture);
                 }
                 if(ParticleList[i] != null && ParticleList[i].ParticleLifeTime < 0)
                 {
