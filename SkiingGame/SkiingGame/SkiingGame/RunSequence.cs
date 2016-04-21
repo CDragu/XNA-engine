@@ -62,7 +62,7 @@ namespace SkiingGame
             knighttexture = Content.Load<Texture2D>("knightspritesheet");
 
 
-            System.IO.FileStream fs = new System.IO.FileStream(@"C:\Users\cosmin\Source\Repos\SkiingGame\SkiingGame\SkiingGame\SkiingGameContent\buzz.wav", System.IO.FileMode.Open); //needs to be reworked, was not working with simple load content
+            System.IO.FileStream fs = new System.IO.FileStream(@"C:\Users\cosminddragu\Source\Repos\SkiingGame\SkiingGame\SkiingGame\SkiingGameContent\buzz.wav", System.IO.FileMode.Open); //needs to be reworked, was not working with simple load content
             SoundEffect mysound = SoundEffect.FromStream(fs);
             fs.Dispose();
 
