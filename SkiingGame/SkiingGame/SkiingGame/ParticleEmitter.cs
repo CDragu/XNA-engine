@@ -18,7 +18,11 @@ namespace SkiingGame
         private Vector2 pinitialVelocity;
         private float pinitialVelocityTime;
         private float pLifeTime;
+
+        Particle parti;
+
         
+
 
         public int MaxParticleNumber
         {
@@ -80,15 +84,27 @@ namespace SkiingGame
             {
                 if(ParticleList[i] == null)
                 {
-                    Particle parti = new Particle(this.maxParticleNumber, this.position, this.emmitingDirection, this.InitialVelocity, this.pinitialVelocityTime, this.pLifeTime,this.PTexture);
+                    ParticleList[i] = new Particle(this.maxParticleNumber, this.position, this.emmitingDirection, this.InitialVelocity, this.pinitialVelocityTime, this.pLifeTime,this.PTexture);
                 }
+                ParticleList[i].Update();
                 if(ParticleList[i] != null && ParticleList[i].ParticleLifeTime < 0)
                 {
                     ParticleList[i] = null;
                 }
-                ParticleList[i].Update();
-                ParticleList[i].Draw();
+                
+               
             }
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < maxParticleNumber; i++)
+            {
+                if (ParticleList[i] != null)
+                {
+                    ParticleList[i].Draw(spriteBatch);
+                }
+            }
+               
         }
     }
 }

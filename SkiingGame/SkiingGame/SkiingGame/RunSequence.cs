@@ -32,6 +32,7 @@ namespace SkiingGame
         Sprite SoundGhost;
         Player knight;
         PhysicsObject Obj1, Obj2;
+        ParticleEmitter Party;
 
         public PlayField field;
 
@@ -71,6 +72,7 @@ namespace SkiingGame
             Obj1 = new PhysicsObject(new Vector2(250f, 250f), 0.1f, flagRighttexture, 0, 1f, field);
             Obj2 = new PhysicsObject(new Vector2(250f, 280f), 0.1f, flagLefttexture, 0, 1f, field);
             SoundGhost = new Sprite(new Vector2(100f, 100f), 0.5f, flagRighttexture, soundEffectInstance, -0.2f, 0.2f, field);
+            Party = new ParticleEmitter(5, new Vector2(20f, 20f), 1, Vector2.Zero, 1, 4, flagRighttexture);
         }
 
        
@@ -92,6 +94,10 @@ namespace SkiingGame
             
             Obj2.Update();
             Obj1.PhysicsUpdate(Obj1, Obj2);
+
+            Party.Update();
+            
+
             if (keyboard.IsKeyDown(Keys.J))
             {
                 
@@ -129,6 +135,7 @@ namespace SkiingGame
             knight.DrawWithAnimation(spriteBatch);
             Obj1.Draw(spriteBatch);
             Obj2.Draw(spriteBatch);
+            Party.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
