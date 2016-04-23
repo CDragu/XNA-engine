@@ -2,75 +2,96 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace SkiingGame
 {
-    class Particle : ParticleEmitter
+    public class Particle
     {
-        private float pscale = 1;
-        private float protation;
-        private Color pcolor = new Color(0.5f, 0.5f,0.5f);
-        private float palpha = 1;
-        private Vector2 pVelocity;
-        private Vector2 pPosition;
+        private Texture2D texture;
+        private Vector2 position;
+        private Vector2 velocity;
+        private float angle;
+        private float angularvelocity;
+        private Color color;
+        private float size;
+        private int lifetime;
 
-        public float Pscale
+        public Texture2D Texture
         {
-            get { return pscale; }
-            set { pscale = value; }
-        }
-
-        public float Protation
-        {
-            get { return protation; }
-            set { protation = value; }
+            get { return texture; }
+            set { texture = value; }
         }
 
-        public float Palpha
+        public Vector2 Position
         {
-            get { return palpha; }
-            set { palpha = value; }
+            get { return position; }
+            set { position = value; }
         }
 
-        public Color Pcolor
+        public Vector2 Velocity
         {
-            get { return pcolor; }
-            set { pcolor = value; }
+            get { return velocity; }
+            set { velocity = value; }
         }
 
-        public Vector2 PVelocity
+        public float Angle
         {
-            get { return pVelocity; }
-            set { pVelocity = value; }
+            get { return angle; }
+            set { angle = value; }
         }
 
-        public Vector2 PPosition
+        public float Angularvelocity
         {
-            get { return pPosition; }
-            set { pPosition = value; }
+            get { return angularvelocity; }
+            set { angularvelocity = value; }
         }
 
-        public Particle(int maxParticleNumber, Vector2 position, float emmitingDirection, Vector2 initialVelocity, float initialVelocityTime, float particlelifetime, Texture2D texture) : base(maxParticleNumber,position,emmitingDirection,initialVelocity,initialVelocityTime,particlelifetime,texture)
+        public Color Color
         {
-            this.ParticleLifeTime = particlelifetime;
-            this.Palpha = palpha;
-            this.PTexture = texture;
-            this.InitialVelocity = initialVelocity;
-            this.InitialVelocityTime = initialVelocityTime;
+            get { return color; }
+            set { color = value; }
         }
 
-        public override void Update()
+        public float Size
         {
-            ParticleLifeTime -= 0.1f;
-            PPosition += new Vector2(0, 1);
+            get { return size; }
+            set { size = value; }
         }
-        public new void Draw(SpriteBatch spriteBatch)
+
+        public int Lifetime
         {
-            
-            spriteBatch.Draw(PTexture, PPosition, null, Pcolor * Palpha, Protation, Vector2.Zero, Pscale, SpriteEffects.None, 0f);
-           
+            get { return lifetime; }
+            set { lifetime = value; }
         }
+
+        public Particle(Texture2D texture, Vector2 position, Vector2 velocity, float angle, float angularvelocity, Color color, float size, int lifetime)
+        {
+            Texture = texture;
+            Position = position;
+            Velocity = velocity;
+            Angle = angle;
+            Angularvelocity = angularvelocity;
+            Color = color;
+            Size = size;
+            Lifetime = lifetime;
+        }
+
+        public void Update()
+        {
+            Lifetime--;
+            Position += Velocity;
+            Angle += Angularvelocity;
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Rectangle sourcerectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
+            Vector2 origin = new Vector2(Texture.Width / 2, Texture.Height / 2);
+
+            spriteBatch.Draw(Texture, Position, sourcerectangle, Color, Angle, origin, Size, SpriteEffects.None, 0f);
+        }
+
     }
 }

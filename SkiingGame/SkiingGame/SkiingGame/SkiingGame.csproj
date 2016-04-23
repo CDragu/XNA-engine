@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Particle.cs" />
-    <Compile Include="ParticleEmitter.cs" />
+    <Compile Include="ParticleEmiter.cs" />
     <Compile Include="PhysicsObject.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayField.cs" />

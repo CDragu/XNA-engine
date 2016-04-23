@@ -209,7 +209,7 @@ namespace SkiingGame
         public void PlayAudio()
         {
             soundEffectInstance.Apply3D(listener, emitter);
-            soundEffectInstance.Play();
+            //soundEffectInstance.Play();
         }
     
         
