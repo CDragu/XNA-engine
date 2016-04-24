@@ -1,6 +1,6 @@
 using System;
 
-namespace SkiingGame
+namespace XnaEngine
 {
 #if WINDOWS || XBOX
     static class Program

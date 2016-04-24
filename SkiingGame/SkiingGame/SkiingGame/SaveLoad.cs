@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 
 
-namespace SkiingGame
+namespace XnaEngine
 {
     class SaveLoad
     {

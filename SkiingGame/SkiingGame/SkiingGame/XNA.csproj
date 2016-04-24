@@ -77,9 +77,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SkiingGameContent\SkiingGameContent.contentproj">
-      <Name>SkiingGameContent</Name>
+    <ProjectReference Include="..\SkiingGameContent\XNA-Content.contentproj">
+      <Name>XNA-Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{7011ABEE-BB33-4284-BB5D-0392DA9A132F}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
